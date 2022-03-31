@@ -1,2 +1,1 @@
-# ExamenApiBlog
-Examen tercer parcial
+Solo funciona la API
