@@ -14,25 +14,17 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::get('inicio', [ApiController::class, 'inicio'])->name('inicio');
+Route::get('inicio', [ApiController::class, 'nytApi'])->name('inicio');
+Route::get('seeder', [ApiController::class, 'seedBlog'])->name('seeder');
+Route::get('blog', [ApiController::class, 'blog'])->name('blog');
 
-Route::get('prueba', [ApiController::class, 'artes'])->name('prueba');
 
-Route::get('Arts', [ApiController::class, 'arts'])->name('arts');
-
-Route::get('Science', [ApiController::class, 'science'])->name('science');
-
-Route::get('World', [ApiController::class, 'world'])->name('world');
+Route::get('prueba', [ApiController::class, 'blog'])->name('prueba');
 
 
 
 
 
-Route::get('Api', function () {
-    return view('inicioApi');
-})->name('inicioApi');
 
-Route::get('Stories', function () {
-    return view('vistas.apiStoriesIni');
-})->name('apiStories');
+
 

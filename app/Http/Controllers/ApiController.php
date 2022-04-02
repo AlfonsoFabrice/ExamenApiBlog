@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BlogModel;
+use App\Models\Publicacion;
+
 
 class ApiController extends Controller
 {
     //
     public function inicio(){
 
-        return view('inicio');
+        return view('index');
     }
 
-    public function arts(){
+    public function nytApi(){
         //Api
         $cliente = new \GuzzleHttp\Client();
-        $response = $cliente->request('GET', 'https://api.nytimes.com/svc/topstories/v2/arts.json?api-key=0zk1wcGaHBy6ND2mybUTDypxGPSBf60b');
+        $response = $cliente->request('GET', 'https://api.nytimes.com/svc/news/v3/content/nyt/world.json?api-key=0zk1wcGaHBy6ND2mybUTDypxGPSBf60b');
         $datos = json_decode($response->getBody()->getContents(), true);
      
 
@@ -25,52 +28,22 @@ class ApiController extends Controller
            $elementos[] = [
                 'titulo' => $item['title'],
                 'resumen' => $item['abstract'],
-                'url' => $item['url'],
+                'url' => $item['url']
             ];
         }
 
-       return view('vistas.arte', ['elementos' => $elementos]);
+       return view('index', ['elementos' => $elementos]);
     }
 
-    public function science(){
-        //Api
-        $cliente = new \GuzzleHttp\Client();
-        $response = $cliente->request('GET', 'https://api.nytimes.com/svc/topstories/v2/science.json?api-key=0zk1wcGaHBy6ND2mybUTDypxGPSBf60b');
-        $datos = json_decode($response->getBody()->getContents(), true);
-     
-
-        //obtener elementos
-        $elementos = [];
-        foreach($datos['results'] as $item){
-           $elementos[] = [
-                'titulo' => $item['title'],
-                'resumen' => $item['abstract'],
-                'url' => $item['url'],
-            ];
-        }
+    public function seedBlog(){
+        $elementos = BlogModel::all();
         
-
-       return view('vistas.science', ['elementos' => $elementos]);
+        return view('seederView', ['elementos' => $elementos]);
     }
 
-    public function world(){
-        //Api
-        $cliente = new \GuzzleHttp\Client();
-        $response = $cliente->request('GET', 'https://api.nytimes.com/svc/topstories/v2/world.json?api-key=0zk1wcGaHBy6ND2mybUTDypxGPSBf60b');
-        $datos = json_decode($response->getBody()->getContents(), true);
-     
-
-        //obtener elementos
-        $elementos = [];
-        foreach($datos['results'] as $item){
-           $elementos[] = [
-                'titulo' => $item['title'],
-                'resumen' => $item['abstract'],
-                'url' => $item['url'],
-            ];
-        }
-        
-
-       return view('vistas.world', ['elementos' => $elementos]);
+    public function blog(){
+        $elementos = Publicacion::all();
+        //echo $elementos;
+        return view('blog', ['elementos' => $elementos]);
     }
 }
